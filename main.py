@@ -46,10 +46,17 @@ def main():
         if nowisopen and not isopen:
             notify("Spejs jest otwarty! Więcej info: https://at.hs-ldz.pl")
         elif isopen and not nowisopen:
-            notify("Spejs jest zamknięty! Więcej info: https://at.hs-ldz.pl")
+            for i in range(5):
+                if isitopen():
+                    continue
+                time.sleep(60)
+            else:
+                notify(
+                    "Spejs jest zamknięty! Więcej info: https://at.hs-ldz.pl"
+                )
         isopen = nowisopen
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level='INFO')
+    logging.basicConfig(level="DEBUG")
     main()
