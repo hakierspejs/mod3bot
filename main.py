@@ -38,19 +38,24 @@ def isitopen():
     )
 
 
+def is_status_stable(nowisopen):
+    for i in range(15):
+        if isitopen() != nowisopen:
+            return False
+        time.sleep(60)
+    return True
+
+
 def main():
     isopen = isitopen()
     while True:
         time.sleep(600)
         nowisopen = isitopen()
         if nowisopen and not isopen:
-            notify("Spejs jest otwarty! Więcej info: https://at.hs-ldz.pl")
+            if is_status_stable(nowisopen):
+                notify("Spejs jest otwarty! Więcej info: https://at.hs-ldz.pl")
         elif isopen and not nowisopen:
-            for i in range(15):
-                if isitopen():
-                    continue
-                time.sleep(60)
-            else:
+            if is_status_stable(nowisopen):
                 notify(
                     "Spejs jest zamknięty! Więcej info: https://at.hs-ldz.pl"
                 )
