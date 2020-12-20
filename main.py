@@ -54,12 +54,13 @@ def main():
         if nowisopen and not isopen:
             if is_status_stable(nowisopen, num_checks=1):
                 notify("Spejs jest otwarty! Więcej info: https://at.hs-ldz.pl")
+                isopen = nowisopen
         elif isopen and not nowisopen:
             if is_status_stable(nowisopen, num_checks=15):
                 notify(
                     "Spejs jest zamknięty! Więcej info: https://at.hs-ldz.pl"
                 )
-        isopen = nowisopen
+                isopen = nowisopen
 
 
 if __name__ == "__main__":
