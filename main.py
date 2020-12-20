@@ -46,7 +46,7 @@ def main():
         if nowisopen and not isopen:
             notify("Spejs jest otwarty! Więcej info: https://at.hs-ldz.pl")
         elif isopen and not nowisopen:
-            for i in range(5):
+            for i in range(15):
                 if isitopen():
                     continue
                 time.sleep(60)
