@@ -1,9 +1,9 @@
 #!/usr/bin/env python3.8
 
+import datetime
 import logging
 import time
 
-import requests
 import irc.client
 
 
@@ -28,39 +28,25 @@ def notify(msg):
         pass
 
 
-def isitopen():
-    return bool(
-        len(
-            requests.get(
-                "https://at.hs-ldz.pl/api/v1/users?online=true"
-            ).json()
-        )
-    )
-
-
-def is_status_stable(nowisopen, num_checks):
-    for i in range(num_checks):
-        if isitopen() != nowisopen:
-            return False
-        time.sleep(60)
+def czy_truc_dupe():
+    now = datetime.datetime.now()
+    if now.day % 3 != 0:
+        return False
+    if now.hour != 19:
+        return False
+    if now.minute not in (0, 1):
+        return False
     return True
 
 
 def main():
-    isopen = isitopen()
     while True:
-        time.sleep(600)
-        nowisopen = isitopen()
-        if nowisopen and not isopen:
-            if is_status_stable(nowisopen, num_checks=1):
-                notify("Spejs jest otwarty! Więcej info: https://at.hs-ldz.pl")
-                isopen = nowisopen
-        elif isopen and not nowisopen:
-            if is_status_stable(nowisopen, num_checks=15):
-                notify(
-                    "Spejs jest zamknięty! Więcej info: https://at.hs-ldz.pl"
-                )
-                isopen = nowisopen
+        time.sleep(60)
+        if czy_truc_dupe():
+            notify(
+                "elo, mamy dzien mod % 3 == 0, "
+                "godzina 19:00. wbijamy na Mumble?"
+            )
 
 
 if __name__ == "__main__":
