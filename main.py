@@ -34,14 +34,14 @@ def czy_truc_dupe():
         return False
     if now.hour != 19:
         return False
-    if now.minute not in (0, 1):
+    if now.minute != 0:
         return False
     return True
 
 
 def main():
     while True:
-        time.sleep(60)
+        time.sleep(58)
         if czy_truc_dupe():
             notify(
                 "elo, mamy dzien mod % 3 == 0, "
